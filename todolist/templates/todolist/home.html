@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List ni JICO</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'todolist/style.css' %}">
+</head>
+<body class="bg-gray-50 ">
+
+    <!-- Task Input Form -->
+    <form method="POST" action="/add/" class="w-full bg-green-500 p-4 md:p-6 flex flex-col md:flex-row gap-3 md:gap-5">
+        {% csrf_token %}
+        <input type="text" name="TaskName" placeholder="Enter a task..." class="flex-1 bg-gray-200 p-3 rounded-md outline-none text-sm md:text-base">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 transition text-white font-semibold px-4 py-2 rounded-md text-sm md:text-base">Add Task</button>
+    </form>
+
+    <!-- Task List -->
+    <div class="w-full mt-6 px-3">
+        <h1 class="mb-5 text-xl md:text-2xl font-bold">Your Tasks</h1>
+        <ul class="space-y-4">
+            {% for ta in task %}
+                <li class="bg-white rounded-lg shadow p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div class="flex-1">
+                        <p class="font-medium text-sm md:text-base {% if ta.isDone %}text-green-500 line-through{% else %}text-gray-800{% endif %}">{{ ta.taskName }}</p>
+                        <small class="text-xs text-gray-500 block mt-1">{{ ta.created_at|date:"M d, Y h:i A" }}</small>
+                    </div>
+                    <div class="flex gap-2 mt-2 sm:mt-0">
+                        <a href="/delete/{{ ta.id }}" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs rounded">Delete</a>
+                        <a href="/done/{{ ta.id }}" class="px-3 py-1 text-xs rounded text-white {% if ta.isDone %}bg-red-400 hover:bg-red-500{% else %}bg-green-400 hover:bg-green-500{% endif %}">
+                            {% if ta.isDone %}Undo{% else %}Mark as Done{% endif %}
+                        </a>
+                    </div>
+                </li>
+            {% empty %}
+                <div class="bg-white shadow p-6 rounded-lg text-center">
+                    <h2 class="text-lg font-semibold">It's empty! Please add a task...</h2>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>
