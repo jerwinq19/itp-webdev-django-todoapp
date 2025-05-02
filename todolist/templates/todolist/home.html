@@ -11,14 +11,13 @@
 </head>
 <body class="bg-gray-50 ">
 
-    <!-- Task Input Form -->
+    
     <form method="POST" action="/add/" class="w-full bg-green-500 p-4 md:p-6 flex flex-col md:flex-row gap-3 md:gap-5">
         {% csrf_token %}
         <input type="text" name="TaskName" placeholder="Enter a task..." class="flex-1 bg-gray-200 p-3 rounded-md outline-none text-sm md:text-base">
         <button type="submit" class="bg-blue-500 hover:bg-blue-600 transition text-white font-semibold px-4 py-2 rounded-md text-sm md:text-base">Add Task</button>
     </form>
 
-    <!-- Task List -->
     <div class="w-full mt-6 px-3">
         <h1 class="mb-5 text-xl md:text-2xl font-bold">Your Tasks</h1>
         <ul class="space-y-4">
@@ -36,8 +35,15 @@
                     </div>
                 </li>
             {% empty %}
-                <div class="bg-white shadow p-6 rounded-lg text-center">
-                    <h2 class="text-lg font-semibold">It's empty! Please add a task...</h2>
+                <div class="flex items-center flex-col gap-5 shadow p-6 rounded-lg">
+                    <img 
+                        src="https://media.tenor.com/KEzW7ALwfUAAAAAM/cat-what.gif" 
+                        alt="cat-loading"
+                        class="rounded"
+                    >
+                    <h1 class="text-2xl font-semibold">
+                        No task please put one...
+                    </h1>
                 </div>
             {% endfor %}
         </ul>
